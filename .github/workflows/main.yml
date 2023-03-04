@@ -1,0 +1,22 @@
+name: AWS Auth Broker
+
+on:
+  workflow_dispatch:
+
+jobs:
+  auth:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - id: 'auth'
+        name: 'Authenticate to AWS'
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: "ap-northeast-2"
+          role-to-assume: "${{ secrets.AWS_ROLE_TO_ASSUME }}"
+          audience: "sts.amazonaws.com"
+          role-duration-seconds: "900"
